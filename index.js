@@ -10,7 +10,8 @@ function delay(duration){
     while(Date.now()- startTime< duration){
         // event loop is blocked here
         // sort JSON.stringify  JSON.parse
-// => Multiple node processes(mater => worker)
+        // => Multiple node processes(mater => worker)
+        // Ref : https://nodejs.org/api/cluster.html
     }
 }
 
