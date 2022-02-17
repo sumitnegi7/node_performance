@@ -1,7 +1,4 @@
-
-# Project Title
-
-Node Clustering
+# Node.js Clustering
 
 
 ## Authors
