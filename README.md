@@ -1,5 +1,7 @@
 # Node.js Clustering
 
+## PM2 comes with an inbuilt support for load balancing
+
 
 ## Authors
 
