@@ -1,6 +1,6 @@
 import express from "express"
-// import cluster from "cluster";
-// import {cpus} from "os"
+import cluster from "cluster";
+import {cpus} from "os"
 import fs from "fs"
 import dotenv from "dotenv";
 import {SecretsManager} from "@aws-sdk/client-secrets-manager";
@@ -12,14 +12,12 @@ const client = new SecretsManager({ region: "ap-south-1" });
 //         secret: "mysecrets",
 //         // decodedBinarySecret,
 // }
-// async/await.
+
 
 const retrieveSecrets = async() => {
     try {
 
         const data = await client.getSecretValue({SecretId:"mysecrets"})
-      
-        console.log(data)
       
         const secretsJSON = JSON.parse(data.SecretString);
       
@@ -27,7 +25,6 @@ const retrieveSecrets = async() => {
         Object.keys(secretsJSON).forEach((key) => {
             secretsString += `${key}=${secretsJSON[key]}\n`;
         });
-        console.log(secretsString)
         return secretsString
         // process data.
       } catch (error) {
@@ -41,7 +38,6 @@ const retrieveSecrets = async() => {
 try {
     //get secretsString:
     const secretsString = await retrieveSecrets();
-    console.log(secretsString,",,,,,,,,,,,,,,,,,,,")
 
     //write to .env file at root level of project:
     fs.writeFileSync(".env", secretsString,  { flag: 'w' });
@@ -63,7 +59,7 @@ function delay(duration){
     while(Date.now()- startTime< duration){
         // event loop is blocked here
         // sort JSON.stringify  JSON.parse
-        // => Multiple node processes(mater => worker)
+        // => Multiple node processes(master => worker)
         // Ref : https://nodejs.org/api/cluster.html
     }
 }
@@ -78,13 +74,14 @@ app.get("/timer", (req,res) =>{
     res.send(`wait ${process.pid}`)
 })
 
-// if(!cluster.isWorker){
-//     console.log("Master started");
-//     const NUM_WORKER = cpus().length;
-//     for (let i=0; i<NUM_WORKER; i+=1){
-//         cluster.fork()
-//     }
-// } else{
+if(!cluster.isWorker){
+    console.log("Master started");
+    const NUM_WORKER = cpus().length;
+    for (let i=0; i<NUM_WORKER; i+=1){
+        cluster.fork()
+        console.log(`Cluster ${i}  🔥  🔥  🔥  🔥  🔥  🔥  🔥  🔥 `)
+    }
+} else{
     console.log("Worker");
     app.listen(6000)
-// }
+}
