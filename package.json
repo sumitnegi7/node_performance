@@ -5,12 +5,16 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.3"
+    "@aws-sdk/client-secrets-manager": "^3.95.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.17.3",
+    "pm2": "^5.2.0"
   }
 }
